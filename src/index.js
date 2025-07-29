@@ -21,7 +21,7 @@ let difficulty = "hard";
  *
  */
 function randomInteger(min, max) {
-  // return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
@@ -40,8 +40,15 @@ function randomInteger(min, max) {
  *
  */
 function setDelay(difficulty) {
-  // TODO: Write your code here.
-  
+  if (difficulty === 'easy') {
+    return 1500;
+  }
+  if (difficulty === 'medium') {
+    return 1000;
+  }
+  if (difficulty === 'hard') {
+    return randomInteger(600, 1200);
+  }
 }
 
 /**
@@ -60,7 +67,14 @@ function setDelay(difficulty) {
  */
 function chooseHole(holes) {
   // TODO: Write your code here.
+  const currHole = holes[randomInteger(0,8)];
 
+  if (currHole === lastHole) {
+    chooseHole(holes);
+  }
+
+  lastHole = currHole;
+  return currHole;
 }
 
 /**
@@ -85,6 +99,13 @@ function chooseHole(holes) {
 */
 function gameOver() {
   // TODO: Write your code here
+  if (time > 0) {
+    timeoutId = showUp();
+    return timeoutId;
+  } else {
+    gameStopped = stopGame();
+  }
+  return gameStopped;
   
 }
 
@@ -98,8 +119,9 @@ function gameOver() {
 *
 */
 function showUp() {
-  let delay = 0; // TODO: Update so that it uses setDelay()
-  const hole = 0;  // TODO: Update so that it use chooseHole()
+  console.log("in showUp()-difficult" + difficulty);
+  let delay = setDelay(difficulty); // TODO: Update so that it uses setDelay()
+  const hole = chooseHole(holes);  // TODO: Update so that it use chooseHole()
   return showAndHide(hole, delay);
 }
 
@@ -130,7 +152,7 @@ function showAndHide(hole, delay){
 */
 function toggleVisibility(hole){
   // TODO: add hole.classList.toggle so that it adds or removes the 'show' class.
-  
+
   return hole;
 }
 
@@ -146,7 +168,7 @@ function toggleVisibility(hole){
 */
 function updateScore() {
   // TODO: Write your code here
-
+  score.textContent = points++;
   return points;
 }
 
@@ -159,8 +181,8 @@ function updateScore() {
 */
 function clearScore() {
   // TODO: Write your code here
-  // points = 0;
-  // score.textContent = points;
+  points = 0;
+  score.textContent = points;
   return points;
 }
 
@@ -184,7 +206,7 @@ function updateTimer() {
 */
 function startTimer() {
   // TODO: Write your code here
-  // timer = setInterval(updateTimer, 1000);
+  timer = setInterval(updateTimer, 1000);
   return timer;
 }
 
@@ -253,12 +275,12 @@ function stopGame(){
  * Note: Simply uncommenting `setDuration(10);` and `showUp();` is not enough. To make the game work, ensure all necessary functions listed above are called to initialize the score, timer, event listeners, and mole appearances. 
 */
 function startGame(){
-  //clearScore();
+  clearScore();
   //stopGame();   //optional
-  //setDuration(10);
-  //setEventListeners();
-  //startTimer();
-  //showUp();
+  setDuration(10);
+  setEventListeners();
+  startTimer();
+  showUp();
   return "game started";
 }
 

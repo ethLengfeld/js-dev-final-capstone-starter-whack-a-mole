@@ -1,7 +1,6 @@
 const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
-// TODO: Add the missing query selectors:
 const score = document.querySelector("#score"); // Use querySelector() to get the score element
 const timerDisplay = document.querySelector("#timer"); // use querySelector() to get the timer element.
 
@@ -66,13 +65,10 @@ function setDelay(difficulty) {
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
 function chooseHole(holes) {
-  // TODO: Write your code here.
   const currHole = holes[randomInteger(0,8)];
-
   if (currHole === lastHole) {
     chooseHole(holes);
   }
-
   lastHole = currHole;
   return currHole;
 }
@@ -120,8 +116,8 @@ function gameOver() {
 */
 function showUp() {
   console.log("in showUp()-difficult" + difficulty);
-  let delay = setDelay(difficulty); // TODO: Update so that it uses setDelay()
-  const hole = chooseHole(holes);  // TODO: Update so that it use chooseHole()
+  let delay = setDelay(difficulty);
+  const hole = chooseHole(holes);
   return showAndHide(hole, delay);
 }
 
@@ -135,12 +131,13 @@ function showUp() {
 */
 function showAndHide(hole, delay){
   // TODO: call the toggleVisibility function so that it adds the 'show' class.
+  toggleVisibilty(hole)
   
   const timeoutID = setTimeout(() => {
     // TODO: call the toggleVisibility function so that it removes the 'show' class when the timer times out.
-    
+    toggleVisibilty(hole)
     gameOver();
-  }, 0); // TODO: change the setTimeout delay to the one provided as a parameter
+  }, delay);
   return timeoutID;
 }
 
@@ -151,8 +148,7 @@ function showAndHide(hole, delay){
 *
 */
 function toggleVisibility(hole){
-  // TODO: add hole.classList.toggle so that it adds or removes the 'show' class.
-
+  hole.classList.toggle("show");
   return hole;
 }
 
@@ -167,8 +163,7 @@ function toggleVisibility(hole){
 *
 */
 function updateScore() {
-  // TODO: Write your code here
-  score.textContent = points++;
+  score.textContent = ++points;
   return points;
 }
 
@@ -180,7 +175,6 @@ function updateScore() {
 *
 */
 function clearScore() {
-  // TODO: Write your code here
   points = 0;
   score.textContent = points;
   return points;

@@ -211,7 +211,7 @@ function toggleVisibility(hole){
 
 #### 2. `showAndHide(hole)`
 
-The purpose of this function is to show and hide the mole given a delay time and the hole where the mole is hidden. You'll need to call the `toggleVisibility()` function that you just created. First, call the function so that it adds the `show` class. Then, inside the `setTimeout()`, the `toggleVisibility()` function will also need to be called so that it removes the `show` class. You will also need to set the delay that is given as a parameter. 
+The purpose of this function is to show and hide the mole givenel a day time and the hole where the mole is hidden. You'll need to call the `toggleVisibility()` function that you just created. First, call the function so that it adds the `show` class. Then, inside the `setTimeout()`, the `toggleVisibility()` function will also need to be called so that it removes the `show` class. You will also need to set the delay that is given as a parameter. 
 
 ```js
 function showAndHide(hole, delay){

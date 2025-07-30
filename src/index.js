@@ -3,12 +3,15 @@ const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
 const score = document.querySelector("#score"); // Use querySelector() to get the score element
 const timerDisplay = document.querySelector("#timer"); // use querySelector() to get the timer element.
+const whackAMoleGameAudio = document.getElementById("whackAMoleGameAudio");
+const whackAudio = document.getElementById("whackAudio");
 
 let time = 0;
 let timer;
 let lastHole = 0;
 let points = 0;
 let difficulty = "hard";
+let duration = 10;
 
 /**
  * Generates a random integer within a range.
@@ -94,15 +97,12 @@ function chooseHole(holes) {
 *
 */
 function gameOver() {
-  // TODO: Write your code here
   if (time > 0) {
     timeoutId = showUp();
     return timeoutId;
-  } else {
-    gameStopped = stopGame();
   }
-  return gameStopped;
-  
+  gameStopped = stopGame();
+  return "game stopped";
 }
 
 /**
@@ -115,7 +115,6 @@ function gameOver() {
 *
 */
 function showUp() {
-  console.log("in showUp()-difficult" + difficulty);
   let delay = setDelay(difficulty);
   const hole = chooseHole(holes);
   return showAndHide(hole, delay);
@@ -130,12 +129,9 @@ function showUp() {
 *
 */
 function showAndHide(hole, delay){
-  // TODO: call the toggleVisibility function so that it adds the 'show' class.
-  toggleVisibilty(hole)
-  
+  toggleVisibility(hole)
   const timeoutID = setTimeout(() => {
-    // TODO: call the toggleVisibility function so that it removes the 'show' class when the timer times out.
-    toggleVisibilty(hole)
+    toggleVisibility(hole)
     gameOver();
   }, delay);
   return timeoutID;
@@ -175,8 +171,7 @@ function updateScore() {
 *
 */
 function clearScore() {
-  points = 0;
-  score.textContent = points;
+  score.textContent = points = 0;
   return points;
 }
 
@@ -186,9 +181,10 @@ function clearScore() {
 *
 */
 function updateTimer() {
-  // TODO: Write your code here.
-  // hint: this code is provided to you in the instructions.
-  
+  if (time > 0){
+    time -= 1;
+    timerDisplay.textContent = time;
+  }
   return time;
 }
 
@@ -199,9 +195,15 @@ function updateTimer() {
 *
 */
 function startTimer() {
-  // TODO: Write your code here
   timer = setInterval(updateTimer, 1000);
   return timer;
+}
+
+/**
+ * Play whack sound when hit is made on sprite
+ */
+function playWhackAudio() {
+  whackAudio.play();
 }
 
 /**
@@ -213,8 +215,8 @@ function startTimer() {
 *
 */
 function whack(event) {
-  // TODO: Write your code here.
-  // call updateScore()
+  updateScore();
+  playWhackAudio();
   return points;
 }
 
@@ -224,8 +226,9 @@ function whack(event) {
 * for an example on how to set event listeners using a for loop.
 */
 function setEventListeners(){
-  // TODO: Write your code here
-
+  for (let i = 0; i < moles.length; i++) {
+    moles[i].addEventListener('click', whack);
+  }
   return moles;
 }
 
@@ -241,45 +244,54 @@ function setDuration(duration) {
 }
 
 /**
+ * Start audio once game is started
+ */
+function startAudio() {
+  whackAMoleGameAudio.play();
+}
+
+/**
+ * Start audio once game is started
+ */
+function stopAudio() {
+  whackAMoleGameAudio.pause();
+}
+
+/**
 *
 * This function is called when the game is stopped. It clears the
 * timer using clearInterval. Returns "game stopped".
 *
 */
 function stopGame(){
-  // stopAudio(song);  //optional
+  stopAudio();
   clearInterval(timer);
   return "game stopped";
 }
 
 /**
 * This function starts the game when the `startButton` is clicked and initializes the game by performing the following steps: 
-
  * 1. Clears the score using `clearScore()`. 
-
  * 2. Sets the game duration using `setDuration()`. 
-
  * 3. Sets up event listeners on the moles using `setEventListeners()`.
-
  * 4. Starts the game timer by calling `startTimer()`.  
-
  * 5. Begins the game loop by calling `showUp()` to display moles. 
-
-
  * Note: Simply uncommenting `setDuration(10);` and `showUp();` is not enough. To make the game work, ensure all necessary functions listed above are called to initialize the score, timer, event listeners, and mole appearances. 
 */
-function startGame(){
+function startGame() {
+  difficulty = document.getElementById("difficulty").value;
+  duration = document.getElementById("duration").value;
   clearScore();
-  //stopGame();   //optional
-  setDuration(10);
+  stopGame();
+  setDuration(duration);
   setEventListeners();
+  startAudio();
   startTimer();
   showUp();
   return "game started";
 }
 
 startButton.addEventListener("click", startGame);
-
 
 // Please do not modify the code below.
 // Used for testing purposes.

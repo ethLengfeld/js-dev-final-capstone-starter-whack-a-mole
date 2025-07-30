@@ -3,11 +3,30 @@
     <link rel="stylesheet" href="./src/styles.css">
   </head>
   <body>
+    <audio id="whackAMoleGameAudio" src="./assets/molesong.mp3" preload="auto"></audio>
+    <audio id="whackAudio" src="./assets/hit.mp3" preload="auto"></audio>
     <h1></h1>
     <div>
       <div>
-        <h2>Click start to play!</h2>
-        <button id="start">start</button>
+        <h2>Click <button id="start">start</button> to play!</h2>
+      </div>
+      <div id="startForm">
+        <div>
+          <label for="difficulty">Choose Difficulty:</label>
+          <select id="difficulty" name="difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div>
+          <label for="duration">Choose Duration:</label>
+          <select id="duration" name="duration">
+              <option value="10">10 seconds</option>
+              <option value="15">15 seconds</option>
+              <option value="20">20 seconds</option>
+          </select>
+        </div>
       </div>
       <div>
         <h2>score: <span id="score">0</span></h2>

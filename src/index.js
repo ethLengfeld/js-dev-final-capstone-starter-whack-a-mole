@@ -12,6 +12,7 @@ let lastHole = 0;
 let points = 0;
 let difficulty = "hard";
 let duration = 10;
+let gameAudioPromise;
 
 /**
  * Generates a random integer within a range.
@@ -42,15 +43,15 @@ function randomInteger(min, max) {
  *
  */
 function setDelay(difficulty) {
-  if (difficulty === 'easy') {
-    return 1500;
+  switch (difficulty) {
+    case "easy":
+      return 1500;
+    case "hard":
+      return randomInteger(600, 1200);
+    default:
+      return 1000; // normal and anything else
   }
-  if (difficulty === 'medium') {
-    return 1000;
-  }
-  if (difficulty === 'hard') {
-    return randomInteger(600, 1200);
-  }
+
 }
 
 /**
@@ -88,21 +89,13 @@ function chooseHole(holes) {
 * return the timeoutId if the game continues or the string "game stopped"
 * if the game is over.
 *
-*  // if time > 0:
-*  //   timeoutId = showUp()
-*  //   return timeoutId
-*  // else
-*  //   gameStopped = stopGame()
-*  //   return gameStopped
-*
 */
 function gameOver() {
   if (time > 0) {
     timeoutId = showUp();
     return timeoutId;
   }
-  gameStopped = stopGame();
-  return "game stopped";
+  return stopGame();
 }
 
 /**
@@ -128,7 +121,7 @@ function showUp() {
 * the timeoutID
 *
 */
-function showAndHide(hole, delay){
+function showAndHide(hole, delay) {
   toggleVisibility(hole)
   const timeoutID = setTimeout(() => {
     toggleVisibility(hole)
@@ -203,7 +196,8 @@ function startTimer() {
  * Play whack sound when hit is made on sprite
  */
 function playWhackAudio() {
-  whackAudio.play();
+  whackAudio.currentTime = 0;
+  whackAudio.play().catch(() => { });
 }
 
 /**
@@ -247,11 +241,12 @@ function setDuration(duration) {
  * Start audio once game is started
  */
 function startAudio() {
-  whackAMoleGameAudio.play();
+  whackAMoleGameAudio.currentTime = 0;
+  whackAMoleGameAudio.play().catch(() => { });
 }
 
 /**
- * Start audio once game is started
+ * Stop audio once game is started
  */
 function stopAudio() {
   whackAMoleGameAudio.pause();
@@ -263,9 +258,9 @@ function stopAudio() {
 * timer using clearInterval. Returns "game stopped".
 *
 */
-function stopGame(){
-  stopAudio();
+function stopGame() {
   clearInterval(timer);
+  stopAudio();
   return "game stopped";
 }
 

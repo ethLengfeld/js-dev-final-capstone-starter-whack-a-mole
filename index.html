@@ -6,7 +6,7 @@
   <body>
     <audio id="whackAMoleGameAudio" src="./assets/molesong.mp3" preload="auto"></audio>
     <audio id="whackAudio" src="./assets/hit.mp3" preload="auto"></audio>
-    <h1></h1>
+    <h1 id="title">Whack-a-Mole!!</h1>
     <div>
       <div>
         <h2>Click <button id="start">start</button> to play!</h2>
@@ -16,7 +16,7 @@
           <label for="difficulty">Choose Difficulty:</label>
           <select id="difficulty" name="difficulty">
               <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
+              <option value="normal" selected>Normal</option>
               <option value="hard">Hard</option>
           </select>
         </div>
